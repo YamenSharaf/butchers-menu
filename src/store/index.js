@@ -15,8 +15,8 @@ const store = new Vuex.Store({
     }
   },
   getters: {
-    getMsg (state) {
-      return state.msg
+    getUserStatus (state) {
+      return state.userStatus
     }
   },
   actions: {

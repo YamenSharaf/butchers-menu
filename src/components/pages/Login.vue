@@ -82,13 +82,14 @@ export default {
       this.loading = true
       this.$store.dispatch('login', this.form)
         .then(() => {
-          this.loading = false
           this.$message.success(`Logged in successfully`)
           this.$router.push({ name: 'Home' })
         })
         .catch((error) => {
-          this.loading = false
           this.$message.error(error)
+        })
+        .finally(() => {
+          this.loading = false
         })
     }
   }
