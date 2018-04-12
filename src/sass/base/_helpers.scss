@@ -1,0 +1,69 @@
+// Text Helpers
+
+.font-regular {
+  font-weight: normal !important;
+}
+
+.text-gray {
+  color: #757575 !important;
+}
+
+.bg-gray {
+  background-color: #eee !important;
+}
+
+.bg-primary-light {
+  background-color: lighten($color-primary, 57%) !important;
+}
+
+.text-gray-dark {
+  color: #616161 !important;
+}
+
+.h7 {
+  font-size: 1.7rem !important;
+}
+
+.h8 {
+  font-size: 1.5rem !important;
+}
+
+.h9 {
+  font-size: 1.2rem !important;
+}
+
+// Alignment Helpers
+
+.flex-center {
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.justify-center {
+  justify-content: center !important;
+}
+
+.align-center {
+  align-items: center !important;
+}
+
+.page-wrapper {
+  min-height: 100vh !important;
+}
+
+.app-wrapper {
+  min-height: 80vh !important;
+}
+
+.navbar--active {
+  color: $color-primary !important;
+}
+
+.img-dimmed {
+  filter: grayscale(100%);
+  transition: filter .5s ease-in-out;
+
+  &:hover {
+    filter: grayscale(0%);
+  }
+}
