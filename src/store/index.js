@@ -42,6 +42,9 @@ const store = new Vuex.Store({
     },
     fetchCategories ({ commit }, payload) {
       return categoriesRef.get()
+    },
+    addCategory ({ commit }, payload) {
+      return categoriesRef.add(payload)
     }
   },
   mutations: {
