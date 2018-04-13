@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-collapse-item name="1">
+    <el-collapse-item :name="itemData.id">
       <template slot="title">
         <div class="h5 text-primary mt-1">
           <i class="fa fa-cutlery mr-2 text-secondary" aria-hidden="true"></i>
