@@ -106,10 +106,12 @@ const store = new Vuex.Store({
       let existingItems = categoryData.items
       existingItems.forEach((item) => {
         if (item.id === itemData.id) {
-          item = itemData
+          item.id = itemData.id
+          item.name = itemData.name
+          item.description = itemData.description
+          item.price = itemData.price
         }
       })
-      console.log('edited', existingItems)
       categoryData.items = existingItems
       return categoriesRef.doc(payload.categoryData.id).set(categoryData)
     },

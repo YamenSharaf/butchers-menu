@@ -83,7 +83,7 @@ export default {
       this.$store.dispatch('login', this.form)
         .then(() => {
           this.$message.success(`Logged in successfully`)
-          this.$router.push({ name: 'Home' })
+          this.$router.push({ name: 'Dashboard' })
         })
         .catch((error) => {
           this.$message.error(error)
