@@ -72,6 +72,10 @@ const store = new Vuex.Store({
     },
     deleteCategory ({commit}, categoryId) {
       return categoriesRef.doc(categoryId).delete()
+    },
+    addItemInCategory ({commit}, payload) {
+      let categoryRef = categoriesRef.doc(payload.categoryId).collection('items')
+      return categoryRef.add(payload.itemData)
     }
   },
   mutations: {

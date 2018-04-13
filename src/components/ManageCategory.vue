@@ -7,43 +7,50 @@
           {{ categoryData.name }}
         </h3>
         <div class="text-muted">
-          {{categoryData.date.toUTCString()}}
+          Date created: {{categoryData.date.toUTCString()}}
         </div>
       </b-card-header>
       <b-collapse :id="`cat-${categoryData.id}`" visible accordion="my-accordion" role="tabpanel">
         <b-card-body>
-          <div v-if="editMode" class="category-card__header d-flex justify-content-between align-items-center">
-            <el-form
-              inline
-              ref="editCategoryForm"
-              @keyup.enter.native.prevent="validateForm('editCategoryForm')"
-              :model="editForm"
-              :rules="rules">
-                <el-form-item label="Name" prop="name">
-                  <el-input v-model="editForm.name" placeholder="English name"></el-input>
-                </el-form-item>
-                <el-form-item label="Description" prop="description">
-                  <el-input v-model="editForm.description" placeholder="English description"></el-input>
-                </el-form-item>
-                <el-form-item>
-                  <el-button type="primary" @click.native.prevent="validateForm('editCategoryForm')">Edit</el-button>
-                  <el-button type="danger" @click="editMode = false">Cancel</el-button>
-                </el-form-item>
-            </el-form>
-          </div>
-          <div v-else class="category-card__header d-flex justify-content-between align-items-center">
-            <p class="card-text text-muted mb-0">
-              {{ categoryData.description }}
-            </p>
-            <div class="category-card__actions">
-              <el-button @click="initEditMode">
-                Edit
-              </el-button>
-              <el-button @click="handleCategoryDelete(categoryData.id)">
-                Delete
-              </el-button>
+          <!-- VIEW CATEGORY INFO / EDIT CATEGORY -->
+          <b-alert show variant="success">
+            <div v-if="editMode" class="category-card__header d-flex justify-content-between align-items-center">
+              <el-form
+                inline
+                ref="editCategoryForm"
+                @keyup.enter.native.prevent="$refs.editCategoryForm.validate( v =>  v ? handleCategoryEdit() : undefined)"
+                :model="editForm"
+                :rules="editFormRules">
+                  <el-form-item label="Name" prop="name">
+                    <el-input v-model="editForm.name" placeholder="English name"></el-input>
+                  </el-form-item>
+                  <el-form-item label="Description" prop="description">
+                    <el-input v-model="editForm.description" placeholder="English description"></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click.native.prevent="$refs.editCategoryForm.validate( v =>  v ? handleCategoryEdit() : undefined)">Edit</el-button>
+                    <el-button type="danger" @click="editMode = false">Cancel</el-button>
+                  </el-form-item>
+              </el-form>
             </div>
-          </div>
+            <div v-else class="category-card__header d-flex justify-content-between align-items-center">
+              <p class="card-text text-muted mb-0">
+                {{ categoryData.description }}
+              </p>
+              <div class="category-card__actions">
+                <el-button @click="initEditMode">
+                  Edit
+                </el-button>
+                <el-button @click="handleCategoryDelete(categoryData.id)">
+                  Delete
+                </el-button>
+              </div>
+            </div>
+          </b-alert>
+
+          <!-- ADD ITEM FORM -->
+          <create-item :category-id="categoryData.id" />
+
         </b-card-body>
       </b-collapse>
     </b-card>
@@ -51,10 +58,11 @@
 </template>
 
 <script>
-import formActions from 'Mixins/formActions'
-
+import CreateItem from './CreateItem'
 export default {
-  mixins: [formActions],
+  components: {
+    'create-item': CreateItem
+  },
   data () {
     return {
       loadingAction: false,
@@ -62,9 +70,9 @@ export default {
       editForm: {
         name: ``,
         description: ``,
-        date: Date.now()
+        date: new Date()
       },
-      rules: {
+      editFormRules: {
         name: [
           { required: true, message: 'Please category name', trigger: 'blur' }
         ],
@@ -75,7 +83,11 @@ export default {
     }
   },
   methods: {
-    submitForm () {
+    initEditMode () {
+      this.editMode = true
+      this.editForm = this.categoryData
+    },
+    handleCategoryEdit () {
       this.loadingAction = true
       this.$store.dispatch('editCategory', {
         id: this.categoryData.id,
@@ -91,10 +103,6 @@ export default {
           this.loadingAction = false
           this.editMode = false
         })
-    },
-    initEditMode () {
-      this.editMode = true
-      this.editForm = this.categoryData
     },
     handleCategoryDelete (id) {
       this.$confirm(`Are you sure you want to delete this category (This will delete all items inside)`, `Delete category (${this.categoryData.name})`, {

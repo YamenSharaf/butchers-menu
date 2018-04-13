@@ -56,6 +56,7 @@ export default {
       this.loading = true
       this.$store.dispatch('addCategory', this.form)
         .then(res => {
+          this.$refs.addCategoryForm.resetFields()
           this.$message.success(`Done!`)
         })
         .catch(err => {
