@@ -44,9 +44,6 @@ export default {
           this.$router.push({ name: 'Home' })
         })
     }
-  },
-  mounted () {
-    console.log('route', this.$route)
   }
 }
 </script>

@@ -5,7 +5,7 @@
         Categories
       </div>
       <div class="category-section nice-scrollbar">
-        <menu-category ref="menuCategory" @categorySelected="selectCategory($event)" v-for="category in menu" :key="category.id" :category="category" />
+        <menu-category ref="menuCategory" v-for="category in menu" :key="category.id" :category="category" />
       </div>
     </div>
     <div class="col-md-8">

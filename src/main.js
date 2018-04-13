@@ -8,9 +8,11 @@ import '@/sass/app.scss'
 import BootstrapVue from 'bootstrap-vue'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
+import AsyncComputed from 'vue-async-computed'
 
 Vue.use(ElementUI, {locale})
 Vue.use(BootstrapVue)
+Vue.use(AsyncComputed)
 
 Vue.config.productionTip = false
 

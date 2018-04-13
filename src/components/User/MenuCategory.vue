@@ -35,7 +35,6 @@ export default {
   methods: {
     updateSelected (id) {
       this.selectedCategory = id
-      this.$emit('categorySelected', id)
     }
   },
   props: {
