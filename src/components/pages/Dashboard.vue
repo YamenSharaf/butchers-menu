@@ -14,15 +14,23 @@
           <create-category/>
         </div>
       </div>
+      <div class="row">
+        <div class="col-12">
+          <manage-categories/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import CreateCategory from 'components/CreateCategory'
+import ManageCategories from 'components/ManageCategories'
+
 export default {
   components: {
-    'create-category': CreateCategory
+    'create-category': CreateCategory,
+    'manage-categories': ManageCategories
   },
   data () {
     return {

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import bus from '@/bus'
 import db from 'db'
 import auth from 'db/auth'
 Vue.use(Vuex)
@@ -12,11 +13,15 @@ const store = new Vuex.Store({
       loggedIn: false,
       uid: '',
       email: ''
-    }
+    },
+    categories: []
   },
   getters: {
     getUserStatus (state) {
       return state.userStatus
+    },
+    getCategories (state) {
+      return state.categories
     }
   },
   actions: {
@@ -40,16 +45,44 @@ const store = new Vuex.Store({
     logout () {
       return auth.signOut()
     },
-    fetchCategories ({ commit }, payload) {
+    fetchCategories ({ commit }) {
       return categoriesRef.get()
     },
-    addCategory ({ commit }, payload) {
-      return categoriesRef.add(payload)
+    monitorCategories ({ commit }) {
+      categoriesRef.orderBy('date', 'desc')
+        .onSnapshot((snapshot) => {
+          bus.$emit(`syncing categories`)
+          commit('RESET_CATEGORIES')
+          snapshot.forEach((doc) => {
+            let data = doc.data()
+            let id = doc.id
+            let category = { ...data, id }
+            bus.$emit(`synced categories`)
+            commit('SET_CATEGORIES', category)
+          })
+        })
+    },
+    addCategory ({ commit }, categoryData) {
+      return categoriesRef.add(categoryData)
+    },
+    editCategory ({commit}, payload) {
+      let id = payload.id
+      let formData = payload.form
+      return categoriesRef.doc(id).set(formData)
+    },
+    deleteCategory ({commit}, categoryId) {
+      return categoriesRef.doc(categoryId).delete()
     }
   },
   mutations: {
     SET_USER_STATUS (state, payload) {
       state.userStatus = {...state.userStatus, ...payload}
+    },
+    RESET_CATEGORIES (state) {
+      state.categories = []
+    },
+    SET_CATEGORIES (state, payload) {
+      state.categories.push(payload)
     }
   }
 })

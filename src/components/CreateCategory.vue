@@ -38,7 +38,8 @@ export default {
       loading: false,
       form: {
         name: ``,
-        description: ``
+        description: ``,
+        date: new Date()
       },
       rules: {
         name: [
@@ -55,7 +56,7 @@ export default {
       this.loading = true
       this.$store.dispatch('addCategory', this.form)
         .then(res => {
-          this.$message.success(`Done! ${res}`)
+          this.$message.success(`Done!`)
         })
         .catch(err => {
           this.$message.error(`Error: ${err} `)
