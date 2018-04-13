@@ -11,46 +11,50 @@
         </div>
       </b-card-header>
       <b-collapse :id="`cat-${categoryData.id}`" visible accordion="my-accordion" role="tabpanel">
+        <!-- VIEW CATEGORY INFO / EDIT CATEGORY -->
+        <b-alert show variant="success">
+          <div v-if="editMode" class="category-card__header d-flex justify-content-between align-items-center">
+            <el-form
+              inline
+              ref="editCategoryForm"
+              @keyup.enter.native.prevent="$refs.editCategoryForm.validate( v =>  v ? handleCategoryEdit() : undefined)"
+              :model="editForm"
+              :rules="editFormRules">
+                <el-form-item label="Name" prop="name">
+                  <el-input v-model="editForm.name" placeholder="English name"></el-input>
+                </el-form-item>
+                <el-form-item label="Description" prop="description">
+                  <el-input v-model="editForm.description" placeholder="English description"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click.native.prevent="$refs.editCategoryForm.validate( v =>  v ? handleCategoryEdit() : undefined)">Edit</el-button>
+                  <el-button type="danger" @click="editMode = false">Cancel</el-button>
+                </el-form-item>
+            </el-form>
+          </div>
+          <div v-else class="category-card__header d-flex justify-content-between align-items-center">
+            <p class="card-text text-muted mb-0">
+              <strong class="text-primary">Description:</strong> {{ categoryData.description }}
+            </p>
+            <div class="category-card__actions">
+              <el-button @click="initEditMode">
+                Edit
+              </el-button>
+              <el-button @click="handleCategoryDelete(categoryData.id)">
+                Delete
+              </el-button>
+            </div>
+          </div>
+        </b-alert>
         <b-card-body>
-          <!-- VIEW CATEGORY INFO / EDIT CATEGORY -->
-          <b-alert show variant="success">
-            <div v-if="editMode" class="category-card__header d-flex justify-content-between align-items-center">
-              <el-form
-                inline
-                ref="editCategoryForm"
-                @keyup.enter.native.prevent="$refs.editCategoryForm.validate( v =>  v ? handleCategoryEdit() : undefined)"
-                :model="editForm"
-                :rules="editFormRules">
-                  <el-form-item label="Name" prop="name">
-                    <el-input v-model="editForm.name" placeholder="English name"></el-input>
-                  </el-form-item>
-                  <el-form-item label="Description" prop="description">
-                    <el-input v-model="editForm.description" placeholder="English description"></el-input>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-button type="primary" @click.native.prevent="$refs.editCategoryForm.validate( v =>  v ? handleCategoryEdit() : undefined)">Edit</el-button>
-                    <el-button type="danger" @click="editMode = false">Cancel</el-button>
-                  </el-form-item>
-              </el-form>
-            </div>
-            <div v-else class="category-card__header d-flex justify-content-between align-items-center">
-              <p class="card-text text-muted mb-0">
-                {{ categoryData.description }}
-              </p>
-              <div class="category-card__actions">
-                <el-button @click="initEditMode">
-                  Edit
-                </el-button>
-                <el-button @click="handleCategoryDelete(categoryData.id)">
-                  Delete
-                </el-button>
-              </div>
-            </div>
-          </b-alert>
 
           <!-- ADD ITEM FORM -->
-          <create-item :category-id="categoryData.id" />
+          <create-item :category-data="categoryData" />
 
+          <!-- Existing Items -->
+          <el-collapse>
+            <menu-items @deleted="handleItemDelete($event)" @edited="handleItemEdit($event)" v-for="item in categoryData.items" :key="item.id" :item-data="item" />
+          </el-collapse>
         </b-card-body>
       </b-collapse>
     </b-card>
@@ -59,14 +63,18 @@
 
 <script>
 import CreateItem from './CreateItem'
+import MenuItems from './MenuItems'
+
 export default {
   components: {
-    'create-item': CreateItem
+    'create-item': CreateItem,
+    'menu-items': MenuItems
   },
   data () {
     return {
       loadingAction: false,
       editMode: false,
+      items: [],
       editForm: {
         name: ``,
         description: ``,
@@ -124,6 +132,27 @@ export default {
         })
         .catch(() => {
           return undefined
+        })
+    },
+    handleItemEdit (formData) {
+      this.loadingAction = true
+      this.$store.dispatch('updateItemInCategory', {
+        categoryData: this.categoryData,
+        itemData: formData
+      })
+        .then(res => {
+          this.loadingAction = false
+          this.$message.success(`Done!`)
+        })
+    },
+    handleItemDelete (itemId) {
+      console.log('called', itemId)
+      this.$store.dispatch('deleteItemInCategory', {
+        categoryData: this.categoryData,
+        itemId: itemId
+      })
+        .then(res => {
+          this.$message.success(`Done!`)
         })
     }
   },

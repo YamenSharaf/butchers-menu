@@ -1,27 +1,40 @@
 <template>
   <!-- ADD ITEM FORM -->
-  <el-form
-    inline
-    ref="addItemForm"
-    @keyup.enter.native.prevent="$refs.addItemForm.validate( v =>  v ? handleItemAdd(categoryId) : undefined)"
-    :model="addItemForm"
-    :rules="addItemRules">
-      <el-form-item label="Name" prop="name">
-        <el-input v-model="addItemForm.name" placeholder="English name"></el-input>
-      </el-form-item>
-      <el-form-item label="Description" prop="description">
-        <el-input v-model="addItemForm.description" placeholder="English description"></el-input>
-      </el-form-item>
-      <el-form-item label="Price" prop="description">
-        <el-input v-model="addItemForm.price" placeholder="English description"></el-input>
-      </el-form-item>
-      <el-form-item label="Image URL" prop="description">
-        <el-input v-model="addItemForm.imageUrl" placeholder="English description"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click.native.prevent="$refs.addItemForm.validate( v =>  v ? handleItemAdd(categoryData.id) : undefined)">Add Item</el-button>
-      </el-form-item>
-  </el-form>
+  <div class="manage-item">
+    <!-- <div class="d-flex bg-info text-white px-4 py-2">
+      <h5 class="h5">
+        Add Item
+      </h5>
+    </div> -->
+    <el-form
+      ref="addItemForm"
+      @keyup.enter.native.prevent="$refs.addItemForm.validate( v =>  v ? handleItemAdd() : undefined)"
+      :model="addItemForm"
+      :rules="addItemRules">
+      <div class="row">
+        <div class="col-sm-3">
+          <el-form-item label="Name" prop="name">
+            <el-input v-model="addItemForm.name" placeholder="English name"></el-input>
+          </el-form-item>
+        </div>
+        <div class="col-sm-5">
+          <el-form-item class="pb-0 mb-0" label="Description" prop="description">
+            <el-input type="textarea" v-model="addItemForm.description" placeholder="English description"></el-input>
+          </el-form-item>
+        </div>
+        <div class="col-sm-2">
+          <el-form-item label="Price (EGP)" prop="price">
+            <el-input-number v-model="addItemForm.price" :min="1"></el-input-number>
+          </el-form-item>
+        </div>
+        <div class="col-sm-2 d-flex justify-content-end align-items-end">
+          <el-form-item>
+            <el-button type="primary" @click.native.prevent="$refs.addItemForm.validate( v =>  v ? handleItemAdd() : undefined)">Add Item</el-button>
+          </el-form-item>
+        </div>
+      </div>
+    </el-form>
+  </div>
 </template>
 
 <script>
@@ -31,30 +44,33 @@ export default {
       addItemForm: {
         name: ``,
         description: ``,
-        price: 0,
-        imageUrl: ``,
-        date: new Date()
+        price: 0
       },
       addItemRules: {
         name: [
-          { required: true, message: 'Please category name', trigger: 'blur' }
+          { required: true, message: 'Please enter item name', trigger: 'blur' }
         ],
         description: [
-          { required: true, message: 'Please category description', trigger: 'blur' }
+          { required: true, message: 'Please enter item description', trigger: 'blur' }
+        ],
+        price: [
+          { required: true, message: 'Please enter item price', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    handleItemAdd (categoryId) {
+    handleItemAdd () {
       this.$parent.loadingAction = true
+      let categoryData = this.categoryData
+      let itemData = this.addItemForm
       this.$store.dispatch('addItemInCategory', {
-        categoryId,
-        itemData: this.addItemForm
+        categoryData,
+        itemData
       })
         .then(res => {
           this.$message.success(`Added item successfully`)
-          this.$refs.addItemForm.resetFields()
+          // this.$refs.addItemForm.resetFields()
         })
         .catch(err => {
           this.$message.error(`Error: ${err} `)
@@ -65,8 +81,8 @@ export default {
     }
   },
   props: {
-    categoryId: {
-      type: String
+    categoryData: {
+      type: Object
     }
   }
 }

@@ -39,7 +39,8 @@ export default {
       form: {
         name: ``,
         description: ``,
-        date: new Date()
+        date: new Date(),
+        items: []
       },
       rules: {
         name: [

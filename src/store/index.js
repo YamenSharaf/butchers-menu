@@ -4,6 +4,7 @@ import bus from '@/bus'
 import db from 'db'
 import auth from 'db/auth'
 Vue.use(Vuex)
+const uuid = require('uuid/v1')
 
 const categoriesRef = db.collection('categories')
 
@@ -62,6 +63,19 @@ const store = new Vuex.Store({
           })
         })
     },
+    monitorItems ({ commit }, categoryId) {
+      let categoryRef = categoriesRef.doc(categoryId).collection('items')
+      return categoryRef.orderBy('date', 'desc')
+        .onSnapshot((snapshot) => {
+          return snapshot.forEach((doc) => {
+            let data = doc.data()
+            let id = doc.id
+            let item = { ...data, id }
+            console.log('item', item)
+            return item
+          })
+        })
+    },
     addCategory ({ commit }, categoryData) {
       return categoriesRef.add(categoryData)
     },
@@ -74,8 +88,38 @@ const store = new Vuex.Store({
       return categoriesRef.doc(categoryId).delete()
     },
     addItemInCategory ({commit}, payload) {
-      let categoryRef = categoriesRef.doc(payload.categoryId).collection('items')
-      return categoryRef.add(payload.itemData)
+      let categoryData = payload.categoryData
+      let existingItems = categoryData.items
+      let newItem = payload.itemData
+      let newItemWithId = { ...newItem, id: uuid() }
+      let allItems = [...existingItems, newItemWithId]
+      categoryData.items = allItems
+      return categoriesRef.doc(payload.categoryData.id).set(categoryData)
+    },
+    updateItemInCategory ({commit}, payload) {
+      let categoryData = payload.categoryData
+      let itemData = payload.itemData
+      let existingItems = categoryData.items
+      existingItems.forEach((item) => {
+        if (item.id === itemData.id) {
+          item = itemData
+        }
+      })
+      console.log('edited', existingItems)
+      categoryData.items = existingItems
+      return categoriesRef.doc(payload.categoryData.id).set(categoryData)
+    },
+    deleteItemInCategory ({commit}, payload) {
+      let categoryData = payload.categoryData
+      let itemId = payload.itemId
+      console.log({ categoryData, itemId })
+      let existingItems = categoryData.items
+      let updatedItems = existingItems.filter((item) => {
+        return item.id !== itemId
+      })
+      console.log('updated after delete', updatedItems)
+      categoryData.items = updatedItems
+      return categoriesRef.doc(payload.categoryData.id).set(categoryData)
     }
   },
   mutations: {
