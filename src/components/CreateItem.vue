@@ -19,7 +19,7 @@
         </div>
         <div class="col-sm-5">
           <el-form-item class="pb-0 mb-0" label="Description" prop="description">
-            <el-input type="textarea" v-model="addItemForm.description" placeholder="English description"></el-input>
+            <el-input v-model="addItemForm.description" placeholder="English description"></el-input>
           </el-form-item>
         </div>
         <div class="col-sm-2">

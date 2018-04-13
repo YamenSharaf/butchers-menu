@@ -97,7 +97,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~sass';
+@import '~vars';
 
 .login-page {
   .spaced-words {

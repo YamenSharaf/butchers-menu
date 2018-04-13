@@ -19,10 +19,14 @@ export default {
   methods: {
     syncUserStatus () {
       this.$store.dispatch('monitorUserStatus')
+    },
+    syncMenu () {
+      this.$store.dispatch('monitorCategories')
     }
   },
   mounted () {
     this.syncUserStatus()
+    this.syncMenu()
   }
 }
 </script>

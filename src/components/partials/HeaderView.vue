@@ -1,10 +1,11 @@
 <template>
-  <b-navbar toggleable="md" type="light" class="main-navbar p-4">
+  <b-navbar toggleable="md" variant="secondary" type="dark" class="main-navbar p-4">
     <b-container>
       <b-navbar-brand
+      v-if="$route.name !== 'Home'"
         :to="{ name: 'Home' }"
-        class="h1 text-primary mb-0">
-        Butcher's menu
+        class="h1 text-white mb-0">
+        Home
       </b-navbar-brand>
       <b-collapse is-nav id="nav_collapse">
         <!-- Right aligned nav items -->
@@ -13,7 +14,7 @@
             <b-dropdown-item :to="{ name: 'Dashboard' }"> Dashboard </b-dropdown-item>
             <b-dropdown-item @click="handleLogOut"> Log out </b-dropdown-item>
           </b-nav-item-dropdown>
-          <el-button @click="$router.push({ name: 'Login' })" v-if="!userStatus.loggedIn" type="default">
+          <el-button @click="$router.push({ name: 'Login' })" v-if="!userStatus.loggedIn" type="primary">
             Login
           </el-button>
 
@@ -43,13 +44,16 @@ export default {
           this.$router.push({ name: 'Home' })
         })
     }
+  },
+  mounted () {
+    console.log('route', this.$route)
   }
 }
 </script>
 
 <style lang="scss">
 
-@import '~sass';
+@import '~vars';
 
 .router-link-active, .active {
   color: $color-primary !important;

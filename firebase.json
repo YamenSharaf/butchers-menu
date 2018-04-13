@@ -7,10 +7,5 @@
         "destination": "/index.html"
       }
     ]
-  },
-  "functions": {
-    "predeploy": [
-      "npm --prefix functions run lint"
-    ]
   }
 }

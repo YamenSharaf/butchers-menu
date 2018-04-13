@@ -15,6 +15,7 @@ const store = new Vuex.Store({
       uid: '',
       email: ''
     },
+    selectedUserCategory: '',
     categories: []
   },
   getters: {
@@ -23,6 +24,9 @@ const store = new Vuex.Store({
     },
     getCategories (state) {
       return state.categories
+    },
+    getSelectedCategory (state) {
+      return state.selectedUserCategory
     }
   },
   actions: {
@@ -131,6 +135,9 @@ const store = new Vuex.Store({
     },
     SET_CATEGORIES (state, payload) {
       state.categories.push(payload)
+    },
+    SET_SELECTED_CATEGORY (state, selectedCategoryId) {
+      state.selectedUserCategory = selectedCategoryId
     }
   }
 })
