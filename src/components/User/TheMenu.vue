@@ -35,7 +35,7 @@
           <i class="fa fa-caret-left mr-3" aria-hidden="true"></i>
           Select category
         </div>
-        <menu-item v-for="item in selectedCategoryItems" :key="item.id" :item="item"/>
+          <menu-item v-for="item in selectedCategoryItems" :key="item.id" :item="item"/>
       </div>
     </div>
   </div>

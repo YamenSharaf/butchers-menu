@@ -1,7 +1,12 @@
 <template>
   <div class="position-relative page-wrapper h-100">
     <header-view/>
-    <router-view/>
+    <transition
+      name="fade"
+      duration="90"
+      mode="out-in">
+      <router-view/>
+    </transition>
     <footer-view/>
   </div>
 </template>
