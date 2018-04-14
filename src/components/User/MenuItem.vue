@@ -7,7 +7,9 @@
         <div class="d-flex py-2 justify-content-between w-100">
           <div class="card-text">
             <h1 class="h8 text-primary"> {{item.name}} </h1>
-            <time class="text-muted">{{ item.description }}</time>
+            <el-tooltip effect="dark" :content="item.description" placement="bottom">
+                <span class="text-muted">{{ item.description | truncateLong}}</span>
+            </el-tooltip>
           </div>
             <h1 class="h1 text-secondary">
               &#163; {{ item.price }}

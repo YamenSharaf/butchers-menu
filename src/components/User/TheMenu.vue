@@ -17,9 +17,11 @@
             <div class="h3 user-category__name">
               {{category.name}}
             </div>
-            <div class="user-category__description">
-              {{category.description}}
-            </div>
+            <el-tooltip effect="dark" :content="category.description" placement="bottom">
+              <div class="user-category__description">
+                {{category.description | truncateLong}}
+              </div>
+            </el-tooltip>
           </div>
         </div>
       </div>
@@ -30,9 +32,15 @@
       </div>
       <div class="category-section nice-scrollbar row no-gutters">
         <div
-          class="d-flex flex-center w-100 animated-text display-4 text-center text-secondary"
+          class="d-none d-md-flex flex-center w-100 animated-text-left display-4 text-center text-secondary"
           v-if="!selectedCategoryItems" >
           <i class="fa fa-caret-left mr-3" aria-hidden="true"></i>
+          Select category
+        </div>
+        <div
+          class="d-flex d-md-none flex-center w-100 animated-text-top display-4 text-center text-secondary"
+          v-if="!selectedCategoryItems" >
+          <i class="fa fa-caret-up mr-2" aria-hidden="true"></i>
           Select category
         </div>
           <menu-item v-for="item in selectedCategoryItems" :key="item.id" :item="item"/>
@@ -117,8 +125,15 @@ export default {
   overflow-y: auto;
 }
 
-  .animated-text {
+  .animated-text-left {
     animation: swingToLeft;
+    animation-fill-mode: both;
+    animation-duration: 2.2s;
+    animation-iteration-count: infinite;
+    top: 30%;
+  }
+  .animated-text-top {
+    animation: swingToTop;
     animation-fill-mode: both;
     animation-duration: 2.2s;
     animation-iteration-count: infinite;
@@ -135,6 +150,16 @@ export default {
     100% {
         transform: translateX(0);
     }
-
+  }
+  @keyframes swingToTop {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-30px);
+    }
+    100% {
+        transform: translateY(0);
+    }
   }
 </style>
