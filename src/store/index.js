@@ -15,12 +15,16 @@ const store = new Vuex.Store({
       uid: '',
       email: ''
     },
+    syncingMenu: true,
     selectedUserCategory: '',
     categories: []
   },
   getters: {
     getUserStatus (state) {
       return state.userStatus
+    },
+    getSyncingStatus (state) {
+      return state.syncingMenu
     },
     getCategories (state) {
       return state.categories
@@ -50,33 +54,19 @@ const store = new Vuex.Store({
     logout () {
       return auth.signOut()
     },
-    fetchCategories ({ commit }) {
-      return categoriesRef.get()
-    },
     monitorCategories ({ commit }) {
       categoriesRef.orderBy('date', 'desc')
         .onSnapshot((snapshot) => {
           bus.$emit(`syncing categories`)
+          commit('SET_SYNCING_STATUS', true)
           commit('RESET_CATEGORIES')
           snapshot.forEach((doc) => {
             let data = doc.data()
             let id = doc.id
             let category = { ...data, id }
+            commit('SET_SYNCING_STATUS', false)
             bus.$emit(`synced categories`)
             commit('SET_CATEGORIES', category)
-          })
-        })
-    },
-    monitorItems ({ commit }, categoryId) {
-      let categoryRef = categoriesRef.doc(categoryId).collection('items')
-      return categoryRef.orderBy('date', 'desc')
-        .onSnapshot((snapshot) => {
-          return snapshot.forEach((doc) => {
-            let data = doc.data()
-            let id = doc.id
-            let item = { ...data, id }
-            console.log('item', item)
-            return item
           })
         })
     },
@@ -131,6 +121,9 @@ const store = new Vuex.Store({
   mutations: {
     SET_USER_STATUS (state, payload) {
       state.userStatus = {...state.userStatus, ...payload}
+    },
+    SET_SYNCING_STATUS (state) {
+      state.syncingMenu = state
     },
     RESET_CATEGORIES (state) {
       state.categories = []

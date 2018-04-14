@@ -25,16 +25,6 @@ export default {
     }
   },
   methods: {
-    fetchCategories () {
-      console.log('will fetchCategories')
-      this.$store.dispatch('fetchCategories')
-        .then(res => {
-          console.log(`Fetched categories`, res)
-        })
-        .catch(err => {
-          console.log(`Error fetching categories`, err)
-        })
-    },
     syncCategories () {
       this.$store.dispatch('monitorCategories')
     }

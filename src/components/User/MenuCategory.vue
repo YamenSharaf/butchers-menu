@@ -3,7 +3,7 @@
     @click="updateSelected(category.id)"
     :class="{ 'user-category--selected': category.id === selectedCategory }"
     class="user-category d-flex justify-content-between align-items-center p-2">
-    <img class="img-fluid" width="100" height="100" src="http://unsplash.it/100/100?random&gravity=center" alt="">
+    <img class="img-fluid" width="100" height="100" src="//unsplash.it/100/100?random&gravity=center" alt="">
     <div class="category-details mx-auto d-flex flex-column justify-content-between text-center px-2">
       <div class="h3 user-category__name">
         {{category.name}}
@@ -60,4 +60,5 @@ export default {
     }
 
   }
+
 </style>

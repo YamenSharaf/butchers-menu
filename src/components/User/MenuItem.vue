@@ -2,7 +2,7 @@
 <div class="col-md-6 p-3">
   <el-card class="p-2">
     <div class="d-flex flex-center flex-column">
-      <img src="http://unsplash.it/300/200?random&gravity=center" class="img-fluid">
+      <img src="//unsplash.it/300/200?random&gravity=center" class="img-fluid">
       <div class="d-flex py-2 justify-content-between w-100">
         <div class="card-text">
           <h1 class="h8 text-primary"> {{item.name}} </h1>
