@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import store from '@/store'
 import CreateCategory from 'components/admin/CreateCategory'
 import ManageCategories from 'components/admin/ManageCategories'
 
@@ -35,6 +36,13 @@ export default {
   data () {
     return {
       msg: `Dashboard`
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    if (store.state.userStatus.loggedIn) {
+      next()
+    } else {
+      next('/')
     }
   }
 }
