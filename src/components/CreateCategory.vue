@@ -58,7 +58,7 @@ export default {
       this.$store.dispatch('addCategory', this.form)
         .then(res => {
           this.$refs.addCategoryForm.resetFields()
-          this.$message.success(`Done!`)
+          this.$message.success(`Category Add successfully!`)
         })
         .catch(err => {
           this.$message.error(`Error: ${err} `)

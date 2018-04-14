@@ -73,12 +73,7 @@ export default {
       this.$emit('edited', this.editItemForm)
     },
     handleItemDelete () {
-      this.$confirm(`Are you sure you want to delete this item?`, `Delete item?`, {
-        confirmButtonText: 'Delete'
-      })
-        .then(res => {
-          this.$emit('deleted', this.editItemForm.id)
-        })
+      this.$emit('deleted', this.editItemForm.id)
     }
   },
   props: {

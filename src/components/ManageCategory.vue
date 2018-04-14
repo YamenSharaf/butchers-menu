@@ -113,25 +113,16 @@ export default {
         })
     },
     handleCategoryDelete (id) {
-      this.$confirm(`Are you sure you want to delete this category (This will delete all items inside)`, `Delete category (${this.categoryData.name})`, {
-        type: `error`,
-        confirmButtonText: `Delete`
-      })
-        .then(() => {
-          this.loadingAction = true
-          this.$store.dispatch('deleteCategory', id)
-            .then(res => {
-              this.$message.success(`Category deleted successfully`)
-            })
-            .catch(err => {
-              this.$message.error(`Error: ${err} `)
-            })
-            .finally(() => {
-              this.loadingAction = false
-            })
+      this.loadingAction = true
+      this.$store.dispatch('deleteCategory', id)
+        .then(res => {
+          this.$message.success(`Category deleted successfully`)
         })
-        .catch(() => {
-          return undefined
+        .catch(err => {
+          this.$message.error(`Error: ${err} `)
+        })
+        .finally(() => {
+          this.loadingAction = false
         })
     },
     handleItemEdit (formData) {
@@ -142,7 +133,7 @@ export default {
       })
         .then(res => {
           this.loadingAction = false
-          this.$message.success(`Done!`)
+          this.$message.success(`Item edited successfully!`)
         })
     },
     handleItemDelete (itemId) {
@@ -152,7 +143,7 @@ export default {
         itemId: itemId
       })
         .then(res => {
-          this.$message.success(`Done!`)
+          this.$message.success(`Item deleted!`)
         })
     }
   },
