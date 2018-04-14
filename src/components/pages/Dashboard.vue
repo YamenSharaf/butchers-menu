@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import CreateCategory from 'components/CreateCategory'
-import ManageCategories from 'components/ManageCategories'
+import CreateCategory from 'components/admin/CreateCategory'
+import ManageCategories from 'components/admin/ManageCategories'
 
 export default {
   components: {
