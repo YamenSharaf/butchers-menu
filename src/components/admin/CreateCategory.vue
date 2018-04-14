@@ -1,7 +1,10 @@
 <template>
   <el-card v-loading="loading" class="mt-4">
     <div slot="header" class="clearfix">
-      <span class="h2 text-secondary">Add Category</span>
+      <span class="h2 text-secondary">
+        <i class="fa fa-plus mr-2" aria-hidden="true"></i>
+        Add Category
+      </span>
     </div>
     <el-form
       ref="addCategoryForm"
@@ -21,7 +24,7 @@
         </div>
         <div class="col-2 d-flex justify-content-center align-items-end">
           <el-form-item>
-            <el-button type="primary" @click.native.prevent="validateForm('addCategoryForm')">Create Category</el-button>
+            <el-button icon="el-icon-plus" type="primary" @click.native.prevent="validateForm('addCategoryForm')">Create Category</el-button>
           </el-form-item>
         </div>
       </div>

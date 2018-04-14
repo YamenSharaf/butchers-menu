@@ -11,9 +11,9 @@
                 <span class="text-muted">{{ item.description | truncateLong}}</span>
             </el-tooltip>
           </div>
-            <h1 class="h1 text-secondary">
+            <div class="h3 text-secondary">
               &#163; {{ item.price | NtoK}}
-            </h1>
+            </div>
         </div>
 
       </div>

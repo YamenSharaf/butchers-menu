@@ -1,7 +1,10 @@
 <template>
   <el-card v-loading="loadingCategories" class="mt-4">
     <div slot="header" class="clearfix">
-      <span class="h2 text-secondary">Manage categories</span>
+      <span class="h2 text-secondary">
+        <i class="fa fa-sliders mr-2" aria-hidden="true"></i>
+        Manage categories
+      </span>
     </div>
     <manage-category v-for="category in categories" :key="category.id" :category-data="category"/>
   </el-card>

@@ -29,7 +29,7 @@
         </div>
         <div class="col-sm-2 d-flex justify-content-end align-items-end">
           <el-form-item>
-            <el-button type="primary" @click.native.prevent="$refs.addItemForm.validate( v =>  v ? handleItemAdd() : undefined)">Add Item</el-button>
+            <el-button icon="el-icon-plus" type="primary" @click.native.prevent="$refs.addItemForm.validate( v =>  v ? handleItemAdd() : undefined)">Add Item</el-button>
           </el-form-item>
         </div>
       </div>

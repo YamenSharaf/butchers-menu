@@ -2,6 +2,7 @@
   <div v-loading="loadingMenu" class="row border-primary border-bottom pb-3 mb-5 the-menu">
     <div class="col-md-4">
       <div class="d-flex flex-center text-center bg-primary text-white p-4 h5">
+        <i class="fa fa-sitemap mr-2" aria-hidden="true"></i>
         Categories
       </div>
       <div class="category-section nice-scrollbar">
@@ -28,6 +29,7 @@
     </div>
     <div class="col-md-8">
       <div class="d-flex flex-center text-center bg-primary text-white p-4 h5">
+        <i class="fa fa-list mr-2" aria-hidden="true"></i>
         Items
       </div>
       <div class="category-section nice-scrollbar row no-gutters">
@@ -81,7 +83,7 @@ export default {
   methods: {
     updateSelected (id, items) {
       this.selectedCategory = id
-      this.selectedCategoryItems = items
+      this.selectedCategoryItems = items.reverse()
     },
     syncCategories () {
       this.$store.dispatch('monitorCategories')

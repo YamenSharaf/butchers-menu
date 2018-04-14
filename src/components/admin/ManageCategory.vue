@@ -27,7 +27,7 @@
                   <el-input v-model="editForm.description" placeholder="English description"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click.native.prevent="$refs.editCategoryForm.validate( v =>  v ? handleCategoryEdit() : undefined)">Edit</el-button>
+                  <el-button icon="el-icon-edit" type="primary" @click.native.prevent="$refs.editCategoryForm.validate( v =>  v ? handleCategoryEdit() : undefined)">Edit</el-button>
                   <el-button type="danger" @click="editMode = false">Cancel</el-button>
                 </el-form-item>
             </el-form>
@@ -37,10 +37,10 @@
               <strong class="text-primary">Description:</strong> {{ categoryData.description }}
             </p>
             <div class="category-card__actions">
-              <el-button @click="initEditMode">
+              <el-button icon="el-icon-edit" @click="initEditMode">
                 Edit
               </el-button>
-              <el-button @click="handleCategoryDelete(categoryData.id)">
+              <el-button icon="el-icon-delete" @click="handleCategoryDelete(categoryData.id)">
                 Delete
               </el-button>
             </div>
